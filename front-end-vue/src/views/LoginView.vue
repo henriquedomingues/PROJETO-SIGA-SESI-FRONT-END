@@ -1,141 +1,42 @@
 <script setup>
-import { reactive, computed } from "vue"
 
-const form = reactive({
-  email: "",
-  senha: "",
-  touched: {
-    email: false,
-    senha: false
-  }
-})
 
-const errors = reactive({
-  email: "",
-  senha: ""
-})
-
-function validarEmail(valor) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return regex.test(valor)
-}
-
-function validarFormulario() {
-  errors.email = ""
-  errors.senha = ""
-
-  if (!form.email) {
-    errors.email = "O email é obrigatório."
-  } else if (!validarEmail(form.email)) {
-    errors.email = "Digite um email válido."
-  }
-
-  if (!form.senha) {
-    errors.senha = "A senha é obrigatória."
-  } else if (form.senha.length < 6) {
-    errors.senha = "A senha deve ter no mínimo 6 caracteres."
-  }
-}
-
-const formValido = computed(() => {
-  return (
-    form.email &&
-    form.senha &&
-    validarEmail(form.email) &&
-    form.senha.length >= 6
-  )
-})
-
-function submit() {
-  validarFormulario()
-
-  if (!formValido.value) return
-
-  // Futuramente aqui entra sua API
-  console.log("Dados prontos para envio:", {
-    email: form.email,
-    senha: form.senha
-  })
-
-  alert("Login válido ✔")
-}
-
-function esqueceuSenha() {
-  alert("Redirecionar para recuperação de senha.")
-}
 </script>
 
 <template>
 
-    <div class="lines">
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
+
+    <div class="container">
+        
+    
+
+        <form>
+                <div id="email-input" class="input-group">
+
+                  <input type="text" placeholder="Digite seu email">
+                </div>
+           
+
+            <div class="input-group">
+                <input type="password" placeholder="Digite sua senha" class="senha">
+            </div>
+
+            <button type="submit">Entrar</button>
+
+            <div class="links">
+                <a href="#" class="esqueceu">Esqueceu a senha?</a>
+                <a href="#" class="criar">Criar uma conta</a>
+            </div>
+        </form>
     </div>
 
    
-    <div class="bloco">
-       <h2>Aqui irá ter a logo</h2>
-        <div class="container">
-            
-            <form @submit.prevent="submit" novalidate>
-            
-            
-
-                <!-- EMAIL -->
-            <div class="field">
-                <input
-                type="email"
-                v-model="form.email"
-                @blur="form.touched.email = true; validarFormulario()"
-                :class="{ invalid: errors.email && form.touched.email }"
-                placeholder="Digite seu email"
-                />
-                <small v-if="errors.email && form.touched.email" class="error">
-                {{ errors.email }}
-                </small>
-            </div>
-
-            <!-- SENHA -->
-            <div class="field">
-                <input
-                type="password"
-                v-model="form.senha"
-                @blur="form.touched.senha = true; validarFormulario()"
-                :class="{ invalid: errors.senha && form.touched.senha }"
-                placeholder="Digite sua senha"
-                />
-                <small v-if="errors.senha && form.touched.senha" class="error">
-                {{ errors.senha }}
-                </small>
-            </div>
-
-            <div class="actions">
-                <button type="submit" :disabled="!formValido">
-                Entrar
-                </button>
-
-                <a class="esqueceu-senha" href="#" @click.prevent="esqueceuSenha">
-                Esqueceu a senha?
-                </a>
-
-                <a href="#" @click.prevent="esqueceuSenha">
-                Criar uma conta
-                </a>
-            </div>
-            </form>
-        </div>
-  </div>
+    
 </template>
 
 <style scoped>
+
+  
     
 * {
     
@@ -145,7 +46,7 @@ function esqueceuSenha() {
 }
 
 html, body {
-    
+
   height: 100%;
 }
 
@@ -161,90 +62,7 @@ body {
   overflow: hidden;
 }
 
-.lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  margin: auto;
-  width: 90vw;
-  display: flex;
-  justify-content: space-between; /* Distribute lines evenly */
-}
 
-.line {
-  position: relative;
-  width: 1px;
-  height: 100%;
-  /*background: #ffffff;  /* Line color */
-  overflow: hidden;
-}
-
-.line::after {
-  content: '';
-  display: block;
-  position: absolute;
-  height: 15vh;
-  width: 100%;
-  top: -50%;
-  left: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation: drop 7s 0s infinite;
-  animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
-}
-
-/* Different colors for each line's pseudo-element */
-.line:nth-child(1)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 0.5s;
-}
-
-.line:nth-child(2)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 1s;
-}
-
-.line:nth-child(3)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 1.5s;
-}
-
-.line:nth-child(4)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 2s;
-}
-
-.line:nth-child(5)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 2.5s;
-}
-
-.line:nth-child(6)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 3s;
-}
-
-.line:nth-child(7)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 3.5s;
-}
-
-.line:nth-child(8)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 4s;
-}
-
-.line:nth-child(9)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 4.5s;
-}
-
-.line:nth-child(10)::after {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF0000 75%, #FF0000 100%);
-  animation-delay: 5s;
-}
 
 @keyframes drop {
   0% {
@@ -257,127 +75,99 @@ body {
 
 
 
+         body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+        h1 {
+            margin-top: 40px;
+            font-family: "Times New Roman", serif;
+            font-size: 48px;
+        }
 
+        .container {
+            margin-top: 30px;
+            background: #fff;
+            width: 400px;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
 
+        }
 
+       /* input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px;
+        } */
 
+        #email-input {
+          
+        }
+        
 
+        .input-group {
+            margin-bottom: 20px;
+        }
 
+       
 
+        .senha {
+            border: 1px solid red;
+        }
 
+        .erro {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+            margin-top: 5px;
+            margin-left: 15px;
+        }
 
-.bloco{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ccc;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-.container {
-  margin: 0px auto;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  background: white;
-  font-family: Arial, sans-serif;
+        .links {
+            margin-top: 20px;
+        }
 
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 50px;
-    padding-bottom: 70px;
+        .links a {
+          font-family: Arial, Helvetica, sans-serif;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            font-size: 16px;
+        }
 
+        .esqueceu {
+            color: #0066ff;
+        }
 
-  /*Deixando no centro*/
-  
-}
+        .criar {
+            color: red;
+        }
 
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.field {
-  margin-bottom: 18px;
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-input {
-  padding: 12px;
-  border-radius: 30px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  transition: 0.3s;
-
-  padding-right: 140px;
-}
-
-input:focus {
-  border-color: #485851c2;
-  outline: none;
-}
-
-.invalid {
-  border-color: #e74c3c;
-  background-color: #fff6f6;
-}
-
-.error {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-button {
-  padding: 12px;
-  border-radius: 6px;
-  border: none;
-  background: red;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: rgb(147, 3, 3);
-}
-
-button:disabled {
-  background: #cccccc;
-
-}
-
-.esqueceu-senha {
-    color: rgb(1, 120, 232);
-}
-
-a {
-  
-  padding-top: 3px;  
-  text-align: center;
-  font-size: 14px;
-  color: #db3722;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-h2{
-    font-size: 40px;
-}
-
+     
 </style>
