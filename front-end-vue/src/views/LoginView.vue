@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue"
+import CadastroView from "./CadastroView.vue"
 
 const email = ref("")
 const password = ref("")
@@ -53,8 +54,8 @@ function submit(){
 
     
 
-  <form @submit.prevent="submit" class="bloco" novalidate>
-   <img src="../images/Logo_SESI_vermelho.jpg" alt="">
+  <form @submit.prevent="submit" method="post" class="bloco" novalidate>
+   <img src="../images/Logo_SESI_vermelho.jpg" alt="Logo Sesi">
 
   <div class="container">
 
@@ -72,7 +73,7 @@ function submit(){
     </div>
 
 
-    <div class="teste">
+  
       <div class="input" id="senhaTop">
         <input 
           type="password"
@@ -83,8 +84,8 @@ function submit(){
       </div>
 
         <p v-if="passwordErro" class="erro">{{ passwordErro }}</p>
-    </div>
-
+ 
+    
 
     <div class="actions">
       <button type="submit">
@@ -93,7 +94,8 @@ function submit(){
 
       <a href="">Esqueceu a senha?</a>
 
-      <a class="conta-nova" href="">Criar nova conta</a>
+      <router-link class="conta-nova" to="/cadastro">Criar nova conta</router-link>
+
 
     
     </div>
@@ -242,11 +244,6 @@ img {
 
 
 
-
-.teste {
-  margin-bottom: 15px;
-  width: 100%;
-}
 
 
 .erro{
