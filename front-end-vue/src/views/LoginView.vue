@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, computed } from "vue"
 
+
 const form = reactive({
   email: "",
   senha: "",
@@ -67,41 +68,58 @@ function esqueceuSenha() {
 
 <template>
 
+
+
     <div class="lines">
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
-  <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
     </div>
 
-   
+    
+
     <div class="bloco">
-       <h2>Aqui irá ter a logo</h2>
+       <h2>SIGA SESI</h2>
         <div class="container">
-            
             <form @submit.prevent="submit" novalidate>
-            
-            
+
+              <div class="teste">
+                <div  class="input">
+                  <input type="text" placeholder="Digite seu email">
+                  <font-awesome-icon :icon="['fas', 'user']" class="i"/>
+
+                </div>
+              </div>
+
+
+              
 
                 <!-- EMAIL -->
-            <div class="field">
+            <!-- <div class="field">
+                
+
                 <input
+                              
                 type="email"
                 v-model="form.email"
                 @blur="form.touched.email = true; validarFormulario()"
                 :class="{ invalid: errors.email && form.touched.email }"
-                placeholder="Digite seu email"
+                placeholder="Digite seu email" 
+                
                 />
                 <small v-if="errors.email && form.touched.email" class="error">
                 {{ errors.email }}
                 </small>
-            </div>
+                  <font-awesome-icon :icon="['fas', 'user']" />
+
+            </div> -->
 
             <!-- SENHA -->
             <div class="field">
@@ -133,12 +151,13 @@ function esqueceuSenha() {
             </form>
         </div>
   </div>
+  
 </template>
 
 <style scoped>
     
 * {
-    
+
   margin: 0;
   padding: 0;
   box-sizing: border-box !important;
@@ -146,14 +165,17 @@ function esqueceuSenha() {
 
 html, body {
     
-  height: 100%;
+  height: 100vw;
+  width: 100vw;  
+  background-color: #000000;
+
 }
 
 body {
   display: table;
   width: 100%;
   height: 100%;
-  background-color: #111;  /* Background color */
+  background-color: #0a0a0a;  /* Background color */
   color: #000000;  /* Text color */
   line-height: 1.6;
   position: relative;
@@ -162,15 +184,17 @@ body {
 }
 
 .lines {
+
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 100%;
-  margin: auto;
-  width: 90vw;
+  margin: 0;
+ 
   display: flex;
   justify-content: space-between; /* Distribute lines evenly */
+  background-color: #0a0a0aec;  
 }
 
 .line {
@@ -179,6 +203,7 @@ body {
   height: 100%;
   /*background: #ffffff;  /* Line color */
   overflow: hidden;
+  
 }
 
 .line::after {
@@ -308,9 +333,9 @@ label {
 }
 
 input {
-  padding: 12px;
-  border-radius: 30px;
-  border: 1px solid #ccc;
+  padding: 12px;  
+  border-radius: 0px;
+  border: 1px solid #646262;
   font-size: 14px;
   transition: 0.3s;
 
@@ -377,7 +402,37 @@ a:hover {
 }
 
 h2{
-    font-size: 40px;
+    font-size: 60px;
+
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    
 }
+
+.input{
+  background-color: white;
+  width: 400px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.input input{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.i {
+  position: absolute;
+  right: 20px;
+  font-size: 15px;
+  
+  
+
+}
+
 
 </style>
