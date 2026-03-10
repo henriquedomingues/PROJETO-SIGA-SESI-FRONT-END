@@ -1,75 +1,43 @@
 <script setup>
-import { reactive, computed } from "vue"
+import { ref } from "vue"
 
+const email = ref("")
+const password = ref("")
 
-const form = reactive({
-  email: "",
-  senha: "",
-  touched: {
-    email: false,
-    senha: false
-  }
-})
+const emailErro = ref("")
+const passwordErro = ref("")
 
-const errors = reactive({
-  email: "",
-  senha: ""
-})
+function submit(){
 
-function validarEmail(valor) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return regex.test(valor)
-}
+  emailErro.value = ""
+  passwordErro.value = ""
 
-function validarFormulario() {
-  errors.email = ""
-  errors.senha = ""
-
-  if (!form.email) {
-    errors.email = "O email é obrigatório."
-  } else if (!validarEmail(form.email)) {
-    errors.email = "Digite um email válido."
+  if (!email.value) {
+  emailErro.value = "Digite seu email"
+  } 
+  else if (!email.value.includes("@") || email.value.split("@")[1] === "") {
+    emailErro.value = "Email inválido"
   }
 
-  if (!form.senha) {
-    errors.senha = "A senha é obrigatória."
-  } else if (form.senha.length < 6) {
-    errors.senha = "A senha deve ter no mínimo 6 caracteres."
+  if(!password.value){
+    passwordErro.value = "Digite sua senha"
+  } 
+  else if(password.value.length < 6){
+    passwordErro.value = "Mínimo de 6 caracteres"
   }
-}
 
-const formValido = computed(() => {
-  return (
-    form.email &&
-    form.senha &&
-    validarEmail(form.email) &&
-    form.senha.length >= 6
-  )
-})
+  if(emailErro.value || passwordErro.value){
+    return
+  }
 
-function submit() {
-  validarFormulario()
-
-  if (!formValido.value) return
-
-  // Futuramente aqui entra sua API
-  console.log("Dados prontos para envio:", {
-    email: form.email,
-    senha: form.senha
-  })
-
-  alert("Login válido ✔")
-}
-
-function esqueceuSenha() {
-  alert("Redirecionar para recuperação de senha.")
+  console.log("Login válido")
 }
 </script>
 
 <template>
 
 
-
+    <!---Fundo caindo-->>
     <div class="lines">
     <div class="line"></div>
     <div class="line"></div>
@@ -85,90 +53,71 @@ function esqueceuSenha() {
 
     
 
-    <div class="bloco">
-       <h2>SIGA SESI</h2>
-        <div class="container">
-            <form @submit.prevent="submit" novalidate>
+  <form @submit.prevent="submit" class="bloco" novalidate>
+   <img src="../images/Logo_SESI_vermelho.jpg" alt="">
 
-              <div class="teste">
-                <div  class="input">
-                  <input type="text" placeholder="Digite seu email">
-                  <font-awesome-icon :icon="['fas', 'user']" class="i"/>
+  <div class="container">
 
-                </div>
-              </div>
+    <div class="teste">
+      <div class="input">
+        <input 
+          type="text"
+          v-model="email"
+          placeholder="Digite seu email"
+        >
+        <font-awesome-icon :icon="['fas', 'user']" class="i"/>
+      </div>
+
+      <p v-if="emailErro" class="erro">{{ emailErro }}</p>
+    </div>
 
 
-              
+    <div class="teste">
+      <div class="input" id="senhaTop">
+        <input 
+          type="password"
+          v-model="password"
+          placeholder="Digite sua senha"
+        >
+        <font-awesome-icon icon="fa-solid fa-lock" class="i" />
+      </div>
 
-                <!-- EMAIL -->
-            <!-- <div class="field">
-                
+        <p v-if="passwordErro" class="erro">{{ passwordErro }}</p>
+    </div>
 
-                <input
-                              
-                type="email"
-                v-model="form.email"
-                @blur="form.touched.email = true; validarFormulario()"
-                :class="{ invalid: errors.email && form.touched.email }"
-                placeholder="Digite seu email" 
-                
-                />
-                <small v-if="errors.email && form.touched.email" class="error">
-                {{ errors.email }}
-                </small>
-                  <font-awesome-icon :icon="['fas', 'user']" />
 
-            </div> -->
+    <div class="actions">
+      <button type="submit">
+        Entrar
+      </button>
 
-            <!-- SENHA -->
-            <div class="field">
-                <input
-                type="password"
-                v-model="form.senha"
-                @blur="form.touched.senha = true; validarFormulario()"
-                :class="{ invalid: errors.senha && form.touched.senha }"
-                placeholder="Digite sua senha"
-                />
-                <small v-if="errors.senha && form.touched.senha" class="error">
-                {{ errors.senha }}
-                </small>
-            </div>
+      <a href="">Esqueceu a senha?</a>
 
-            <div class="actions">
-                <button type="submit" :disabled="!formValido">
-                Entrar
-                </button>
+      <a class="conta-nova" href="">Criar nova conta</a>
 
-                <a class="esqueceu-senha" href="#" @click.prevent="esqueceuSenha">
-                Esqueceu a senha?
-                </a>
+    
+    </div>
 
-                <a href="#" @click.prevent="esqueceuSenha">
-                Criar uma conta
-                </a>
-            </div>
-            </form>
-        </div>
   </div>
+
+</form>
   
 </template>
 
 <style scoped>
     
 * {
-
   margin: 0;
   padding: 0;
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
 
-html, body {
-    
-  height: 100vw;
-  width: 100vw;  
-  background-color: #000000;
 
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -181,6 +130,9 @@ body {
   position: relative;
   font-family: sans-serif;
   overflow: hidden;
+  margin: 0;
+    overflow-x: hidden;
+
 }
 
 .lines {
@@ -283,9 +235,33 @@ body {
 
 
 
+img {
+  padding-bottom: 20px;
+}
 
 
 
+
+
+.teste {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+
+.erro{
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px 1px 1px 1px;
+  padding-top: 3px;
+}
+
+
+#senhaTop{
+  margin-top: 10px;
+}
 
 
 
@@ -293,27 +269,24 @@ body {
 
 
 .bloco{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 2;
+
+  
 }
 
 .container {
-  margin: 0px auto;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+ margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
   background: white;
-  font-family: Arial, sans-serif;
-
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 50px;
-    padding-bottom: 70px;
-
-
-  /*Deixando no centro*/
-  
+  padding: 30px;
+  width: 100%;
 }
 
 h2 {
@@ -333,13 +306,18 @@ label {
 }
 
 input {
-  padding: 12px;  
-  border-radius: 0px;
+  padding: 14px;  
+  border-radius: 10px;
   border: 1px solid #646262;
-  font-size: 14px;
+  font-size: 16px;
   transition: 0.3s;
 
-  padding-right: 140px;
+  padding-right: 50px;
+
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+
 }
 
 input:focus {
@@ -362,6 +340,8 @@ input:focus {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 10px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 button {
@@ -401,6 +381,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.conta-nova{
+  color: #0064E0;
+}
+
 h2{
     font-size: 60px;
 
@@ -411,26 +395,31 @@ h2{
 
 .input{
   background-color: white;
-  width: 400px;
-  height: 40px;
+  width: 100%;
+  height: 48px;
   position: relative;
   display: flex;
   align-items: center;
-  padding-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+
 }
 
 .input input{
-  position: absolute;
-  height: 100%;
+ height: 100%;
   width: 100%;
+  border: none;
+  padding: 0 45px 0 15px;
+  font-size: 16px;
+  outline: none;
 }
 
 .i {
-  position: absolute;
-  right: 20px;
-  font-size: 15px;
-  
-  
+position: absolute;
+  right: 15px;
+  color: #666;
+  pointer-events: none;
 
 }
 
