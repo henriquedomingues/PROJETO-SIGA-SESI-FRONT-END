@@ -29,23 +29,26 @@ const senhaTamanho = ref(false)
 
 function validarSenha(){
 
-  erroSenha.value = ""
+  senhaMaiuscula.value = /[A-Z]/.test(password.value)
+  senhaNumero.value = /\d/.test(password.value)
+  senhaTamanho.value = password.value.length >= 6
 
-  if(!/[A-Z]/.test(password.value)){
+  if(!senhaMaiuscula.value){
     erroSenha.value = "A senha precisa ter uma letra maiúscula"
     return
   }
 
-  if(!/\d/.test(password.value)){
+  if(!senhaNumero.value){
     erroSenha.value = "A senha precisa ter um número"
     return
   }
 
-  if(password.value.length < 6){
+  if(!senhaTamanho.value){
     erroSenha.value = "A senha precisa ter no mínimo 6 caracteres"
     return
   }
 
+  erroSenha.value = ""
 }
 
 /* Confirmar senha*/
@@ -213,7 +216,7 @@ function submit(){
     <div class="line"></div>
     </div>
 
-    <form class="bloco" @submit.prevent="submit">
+    <form  class="bloco" @submit.prevent="submit">
         
         <div class="container">
 
@@ -558,7 +561,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
-
+  
 }
 
 .input input{
@@ -581,8 +584,21 @@ body {
 }
 
 label{
+
+  
     font-family: Arial, Helvetica, sans-serif;
     
+}
+
+small{
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+
+
+.espaco {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 </style>
